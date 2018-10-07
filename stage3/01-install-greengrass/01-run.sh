@@ -10,12 +10,9 @@ adduser ggc_user ggc_group
 install -m 755 files/greengrass "${ROOTFS_DIR}/etc/init.d/"
 install files/greengrass.service "${ROOTFS_DIR}/etc/systemd/system/"
 systemctl enable greengrass.service
-#
-#
-# cat <<EOF >>${ROOTFS_DIR}/etc/sysctl.d/98-rpi.conf
-# fs.protected_hardlinks = 1
-# fs.protected_symlinks = 1
-# EOF
+
+install files/98-rpi.conf "${ROOTFS_DIR}/etc/sysctl.d/"
+
 #
 # tar Czxf ${ROOTFS_DIR} files/greengrass*.tar.gz
 #
@@ -34,11 +31,11 @@ install -m 755 files/config.txt "${ROOTFS_DIR}/boot/"
 
 # enable ssh
 touch ${ROOTFS_DIR}/boot/ssh
-#
-# # Grab samples which also has the dependencies checker utility.
-# if [ -d ${ROOTFS_DIR}/home/pi/aws-greengrass-samples ]; then
-#   cd ${ROOTFS_DIR}/home/pi/aws-greengrass-samples;
-#   git pull --rebase origin master
-# else
-#   git clone git://github.com/aws-samples/aws-greengrass-samples ${ROOTFS_DIR}/home/pi/aws-greengrass-samples
-# fi
+
+# Grab samples which also has the dependencies checker utility.
+if [ -d ${ROOTFS_DIR}/home/pi/aws-greengrass-samples ]; then
+  cd ${ROOTFS_DIR}/home/pi/aws-greengrass-samples;
+  git pull --rebase origin master
+else
+  git clone git://github.com/aws-samples/aws-greengrass-samples ${ROOTFS_DIR}/home/pi/aws-greengrass-samples
+fi
