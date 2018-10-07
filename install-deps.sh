@@ -16,4 +16,5 @@ rsync \
 xz-utils
 curl \
 file \
-git
+git \
+screen
