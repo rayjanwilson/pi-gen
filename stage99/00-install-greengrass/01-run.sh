@@ -15,7 +15,7 @@ fs.protected_hardlinks = 1
 fs.protected_symlinks = 1
 EOF
 
-tar Czxf ${ROOTFS_DIR} files/greengrass*.tar.gz
+#tar Czxf ${ROOTFS_DIR} files/greengrass*.tar.gz
 
 # Users should place the extracted keys/config into the fat32 partition.
 rm -rf ${ROOTFS_DIR}/greengrass/certs \
