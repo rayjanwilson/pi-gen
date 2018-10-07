@@ -1,5 +1,12 @@
 #!/bin/bash
 
+echo "current directory"
+ls -l
+install -m 755 files/greengrass "${ROOTFS_DIR}/etc/init.d/"
+install files/greengrass.service "${ROOTFS_DIR}/etc/systemd/system/"
+systemctl enable greengrass.service
+
+
 cat <<EOF >>${ROOTFS_DIR}/etc/sysctl.d/98-rpi.conf
 fs.protected_hardlinks = 1
 fs.protected_symlinks = 1
