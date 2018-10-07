@@ -2,6 +2,9 @@
 
 echo "current directory"
 ls -l
+
+echo "/etc"
+ls -l "${ROOTFS_DIR}/etc/"
 install -m 755 files/greengrass "${ROOTFS_DIR}/etc/init.d/"
 install files/greengrass.service "${ROOTFS_DIR}/etc/systemd/system/"
 systemctl enable greengrass.service
