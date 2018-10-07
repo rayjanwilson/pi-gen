@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 
 adduser --disabled-password -q --gecos "" ggc_user
 addgroup ggc_group
