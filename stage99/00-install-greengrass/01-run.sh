@@ -1,13 +1,8 @@
-#!/bin/bash
+#!/bin/bash -e
 
-echo "current directory"
-ls -l
-
-echo "/etc"
-ls -l "${ROOTFS_DIR}/etc/"
-# install -m 755 files/greengrass "${ROOTFS_DIR}/etc/init.d/"
-# install files/greengrass.service "${ROOTFS_DIR}/etc/systemd/system/"
-# systemctl enable greengrass.service
+install -m 755 files/greengrass "${ROOTFS_DIR}/etc/init.d/"
+install files/greengrass.service "${ROOTFS_DIR}/etc/systemd/system/"
+systemctl enable greengrass.service
 #
 #
 # cat <<EOF >>${ROOTFS_DIR}/etc/sysctl.d/98-rpi.conf
@@ -27,15 +22,11 @@ ls -l "${ROOTFS_DIR}/etc/"
 # cp files/root.ca.pem ${ROOTFS_DIR}/greengrass/certs
 #
 # # turn on i2c, spi, and bump gpu memory
-# cat <<EOF >>${ROOTFS_DIR}/boot/config.txt
-# dtparam=i2c_arm=on
-# dtparam=spi=on
-# start_x=1
-# gpu_mem=128
-# EOF
-#
-# # enable ssh
-# touch ${ROOTFS_DIR}/boot/ssh
+install -m 755 files/config.txt "${ROOTFS_DIR}/boot/"
+
+
+# enable ssh
+touch ${ROOTFS_DIR}/boot/ssh
 #
 # # Grab samples which also has the dependencies checker utility.
 # if [ -d ${ROOTFS_DIR}/home/pi/aws-greengrass-samples ]; then
