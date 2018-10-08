@@ -1,12 +1,12 @@
 #!/bin/bash -e
 
-if id "ggc_user" >/dev/null 2>&1; then
-  echo "user exists"
-else
-  echo "user does not exist"
-  adduser --disabled-password -q --gecos "" ggc_user
+if ! id -u ggc_user >/dev/null 2>&1; then
+  echo "ggc_user does not exist... making"
+	adduser --disabled-password --gecos "" ggc_user
   addgroup ggc_group
   adduser ggc_user ggc_group
+else
+  echo "ggc_user exists... skipping"
 fi
 
 #give greengrass user access to the gpu and video system
