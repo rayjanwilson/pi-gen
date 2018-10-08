@@ -25,6 +25,7 @@ install -D files/root.ca.pem "${ROOTFS_DIR}/greengrass/certs/"
 
 # turn on i2c, spi, and bump gpu memory
 install -m 755 files/config.txt "${ROOTFS_DIR}/boot/"
+install -m 644 files/cmdline.txt "${ROOTFS_DIR}/boot/"
 
 # enable ssh
 touch "${ROOTFS_DIR}/boot/ssh"
