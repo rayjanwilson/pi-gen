@@ -10,5 +10,3 @@ else
 fi
 
 groups
-
-systemctl enable greengrass.service
