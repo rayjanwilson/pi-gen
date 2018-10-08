@@ -2,13 +2,12 @@
 
 #give greengrass user access to the gpu and video system
 #usermod -a -G video,spi,i2c,gpio ggc_user
-groups
 
 install -m 755 files/greengrass "${ROOTFS_DIR}/etc/init.d/"
 install -m 555 files/greengrass.service "${ROOTFS_DIR}/etc/systemd/system/"
 install files/98-rpi.conf "${ROOTFS_DIR}/etc/sysctl.d/"
 
-tar Czxf ${ROOTFS_DIR} files/greengrass*.tar.gz
+# tar Czxf ${ROOTFS_DIR} files/greengrass*.tar.gz
 
 # Users should place the extracted keys/config into the fat32 partition.
 rm -rf ${ROOTFS_DIR}/greengrass/certs \

@@ -9,4 +9,6 @@ else
   echo "ggc_user exists... skipping"
 fi
 
+groups
+
 systemctl enable greengrass.service
