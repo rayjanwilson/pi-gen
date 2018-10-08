@@ -17,8 +17,8 @@ tar Czxf ${ROOTFS_DIR} files/greengrass*.tar.gz
 echo "done"
 
 # Users should place the extracted keys/config into the fat32 partition.
-install -d "${ROOTFS_DIR}/boot/greengrass/certs"
-install -d "${ROOTFS_DIR}/boot/greengrass/config"
+install -d "${ROOTFS_DIR}/boot/certs"
+install -d "${ROOTFS_DIR}/boot/config"
 
 # copy root cert into /greengrass/certs
 # install -d "${ROOTFS_DIR}/greengrass/certs/"
