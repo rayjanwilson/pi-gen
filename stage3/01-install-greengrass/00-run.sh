@@ -18,6 +18,7 @@ install -d "${ROOTFS_DIR}/boot/greengrass/certs"
 install -d "${ROOTFS_DIR}/boot/greengrass/config"
 
 # copy root cert into /greengrass/certs
+install -d "${ROOTFS_DIR}/greengrass/certs/"
 install files/root.ca.pem "${ROOTFS_DIR}/greengrass/certs/"
 
 # turn on i2c, spi, and bump gpu memory
