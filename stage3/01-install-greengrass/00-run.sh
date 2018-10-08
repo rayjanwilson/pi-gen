@@ -5,7 +5,7 @@
 
 install -m 755 files/greengrass "${ROOTFS_DIR}/etc/init.d/"
 install -m 644 files/greengrass.service "${ROOTFS_DIR}/etc/systemd/system/"
-onchroot << EOF
+on_chroot << EOF
 systemctl enable greengrass.service
 EOF
 
