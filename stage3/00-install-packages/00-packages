@@ -1,0 +1,4 @@
+git python2.7-dev build-essential cmake yasm pkg-config wget unzip checkinstall gfortran vim
+libeigen3-dev libgflags-dev libgoogle-glog-dev libatlas-base-dev
+libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libxvidcore-dev
+libx264-dev libavresample-dev libavutil-dev opencl-headers

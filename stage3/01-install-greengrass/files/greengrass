@@ -1,0 +1,16 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          greengrass
+# Required-Start:    $all
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:
+# Short-Description: Greengrass...
+### END INIT INFO
+mkdir -p /tmp/images
+chmod 777 /tmp/images
+mkdir -p /greengrass/certs
+mkdir -p /greengrass/config
+cp /boot/certs/* /greengrass/certs/
+cp /boot/config/* /greengrass/config/
+/greengrass/ggc/core/greengrassd \$@

@@ -9,7 +9,7 @@ hardlink -t /usr/share/doc
 EOF
 
 if [ -d "${ROOTFS_DIR}/home/pi/.config" ]; then
-	chmod 700 "${ROOTFS_DIR}/home/pi/.config"
+  chmod 700 "${ROOTFS_DIR}/home/pi/.config"
 fi
 
 rm -f "${ROOTFS_DIR}/etc/apt/apt.conf.d/51cache"
@@ -50,19 +50,19 @@ cp "$ROOTFS_DIR/etc/rpi-issue" "$INFO_FILE"
 
 
 {
-	firmware=$(zgrep "firmware as of" \
-		"$ROOTFS_DIR/usr/share/doc/raspberrypi-kernel/changelog.Debian.gz" | \
-		head -n1 | sed  -n 's|.* \([^ ]*\)$|\1|p')
-	printf "\nFirmware: https://github.com/raspberrypi/firmware/tree/%s\n" "$firmware"
+  firmware=$(zgrep "firmware as of" \
+    "$ROOTFS_DIR/usr/share/doc/raspberrypi-kernel/changelog.Debian.gz" | \
+    head -n1 | sed  -n 's|.* \([^ ]*\)$|\1|p')
+  printf "\nFirmware: https://github.com/raspberrypi/firmware/tree/%s\n" "$firmware"
 
-	kernel="$(curl -s -L "https://github.com/raspberrypi/firmware/raw/$firmware/extra/git_hash")"
-	printf "Kernel: https://github.com/raspberrypi/linux/tree/%s\n" "$kernel"
+  kernel="$(curl -s -L "https://github.com/raspberrypi/firmware/raw/$firmware/extra/git_hash")"
+  printf "Kernel: https://github.com/raspberrypi/linux/tree/%s\n" "$kernel"
 
-	uname="$(curl -s -L "https://github.com/raspberrypi/firmware/raw/$firmware/extra/uname_string7")"
+  uname="$(curl -s -L "https://github.com/raspberrypi/firmware/raw/$firmware/extra/uname_string7")"
 
-	printf "Uname string: %s\n" "$uname"
-	printf "\nPackages:\n"
-	dpkg -l --root "$ROOTFS_DIR"
+  printf "Uname string: %s\n" "$uname"
+  printf "\nPackages:\n"
+  dpkg -l --root "$ROOTFS_DIR"
 } >> "$INFO_FILE"
 
 ROOT_DEV="$(mount | grep "${ROOTFS_DIR} " | cut -f1 -d' ')"
@@ -78,7 +78,7 @@ rm -f "${DEPLOY_DIR}/image_${IMG_DATE}-${IMG_NAME}${IMG_SUFFIX}.zip"
 
 pushd "${STAGE_WORK_DIR}" > /dev/null
 zip "${DEPLOY_DIR}/image_${IMG_DATE}-${IMG_NAME}${IMG_SUFFIX}.zip" \
-	"$(basename "${IMG_FILE}")"
+  "$(basename "${IMG_FILE}")"
 popd > /dev/null
 
 cp "$INFO_FILE" "$DEPLOY_DIR"
