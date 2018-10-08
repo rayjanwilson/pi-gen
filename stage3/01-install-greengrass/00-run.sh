@@ -11,7 +11,7 @@ EOF
 
 install files/98-rpi.conf "${ROOTFS_DIR}/etc/sysctl.d/"
 
-# tar Czxf ${ROOTFS_DIR} files/greengrass*.tar.gz
+tar Czxf ${ROOTFS_DIR} files/greengrass*.tar.gz
 
 # Users should place the extracted keys/config into the fat32 partition.
 install -d "${ROOTFS_DIR}/boot/greengrass/certs"
