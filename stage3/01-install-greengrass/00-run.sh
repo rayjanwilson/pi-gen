@@ -18,8 +18,8 @@ install -d "${ROOTFS_DIR}/boot/greengrass/certs"
 install -d "${ROOTFS_DIR}/boot/greengrass/config"
 
 # copy root cert into /greengrass/certs
-install -d "${ROOTFS_DIR}/greengrass/certs/"
-install files/root.ca.pem "${ROOTFS_DIR}/greengrass/certs/"
+# install -d "${ROOTFS_DIR}/greengrass/certs/"
+install -D files/root.ca.pem "${ROOTFS_DIR}/greengrass/certs/"
 
 # turn on i2c, spi, and bump gpu memory
 install -m 755 files/config.txt "${ROOTFS_DIR}/boot/"
@@ -28,6 +28,7 @@ install -m 755 files/config.txt "${ROOTFS_DIR}/boot/"
 touch "${ROOTFS_DIR}/boot/ssh"
 
 # Grab samples which also has the dependencies checker utility.
+echo "grabbing checker utility using git"
 if [ -d ${ROOTFS_DIR}/home/pi/aws-greengrass-samples ]; then
   cd ${ROOTFS_DIR}/home/pi/aws-greengrass-samples;
   git pull --rebase origin master
