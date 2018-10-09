@@ -23,11 +23,10 @@ adduser --disabled-password --gecos "" ggc_user
 addgroup ggc_group
 adduser ggc_user ggc_group
 usermod -a -G video,spi,i2c,gpio ggc_user
+echo "ggc_user groups:"
+groups ggc_user
 systemctl enable greengrass.service
 EOF
-# for GRP in video gpio spi i2c; do
-#   adduser ggc_user $GRP
-# done
 
 # turn on i2c, spi, and bump gpu memory
 install -v -m 755 files/config.txt "${ROOTFS_DIR}/boot/"
