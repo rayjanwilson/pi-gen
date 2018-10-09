@@ -13,12 +13,18 @@ echo "unpacking greengrass tarball..."
 tar Czxf ${ROOTFS_DIR} files/greengrass*.tar.gz
 echo "done"
 # Users should place the extracted keys/config into the fat32 partition.
-install -d "${ROOTFS_DIR}/boot/certs"
-install -d "${ROOTFS_DIR}/boot/config"
+install -v -d "${ROOTFS_DIR}/boot/certs"
+install -v -d "${ROOTFS_DIR}/boot/config"
 # copy root cert into /greengrass/certs
 install -v -D files/root.ca.pem "${ROOTFS_DIR}/greengrass/certs/"
 
 on_chroot << EOF
+adduser --disabled-password --gecos "" ggc_user
+addgroup ggc_group
+adduser ggc_user ggc_group
+for GRP in video gpio spi i2c; do
+  adduser ggc_user $GRP
+done
 systemctl enable greengrass.service
 EOF
 
