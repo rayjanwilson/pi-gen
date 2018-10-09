@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/etc/init.d/greengrass start
+ExecStart=/etc/init.d/greengrass
 RestartSec=2
 Restart=always
 User=root
