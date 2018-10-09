@@ -6,7 +6,7 @@ install -v -m 644 files/fstab "${ROOTFS_DIR}/etc/"
 install -v -m 644 files/modules "${ROOTFS_DIR}/etc/"
 
 install -v -m 755 files/greengrass "${ROOTFS_DIR}/etc/init.d/"
-install -v -m 755 files/greengrass.service "${ROOTFS_DIR}/etc/systemd/system/"
+install -v -m 644 files/greengrass.service "${ROOTFS_DIR}/etc/systemd/system/"
 install -v -m 644 files/98-rpi.conf "${ROOTFS_DIR}/etc/sysctl.d/"
 
 echo "unpacking greengrass tarball..."
