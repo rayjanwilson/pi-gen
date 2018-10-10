@@ -13,5 +13,5 @@ libcap2-bin \
 bsdtar \
 grep \
 rsync \
-xz-utils
+xz-utils \
 curl
