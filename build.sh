@@ -21,6 +21,7 @@ EOF
       if [ -n "$PACKAGES" ]; then
         on_chroot << EOF
 apt-get install --no-install-recommends -y $PACKAGES
+apt-get install --fix-missing
 EOF
       fi
       log "End ${SUB_STAGE_DIR}/${i}-packages-nr"
@@ -31,6 +32,7 @@ EOF
       if [ -n "$PACKAGES" ]; then
         on_chroot << EOF
 apt-get install -y $PACKAGES
+apt-get install --fix-missing
 EOF
       fi
       log "End ${SUB_STAGE_DIR}/${i}-packages"
