@@ -1,9 +1,13 @@
 [Unit]
 Description=Automatically generates an internet Hotspot when a valid ssid is not in range
+Wants=nodeserver.service
+Before=nodeserver.service
 After=multi-user.target
+
 [Service]
 Type=oneshot
 RemainAfterExit=yes
 ExecStart=/usr/bin/autohotspot.sh
+
 [Install]
 WantedBy=multi-user.target

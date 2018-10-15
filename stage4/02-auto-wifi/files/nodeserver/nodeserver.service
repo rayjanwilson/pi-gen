@@ -1,0 +1,10 @@
+[Unit]
+Description=Node server for setting wifi
+BindsTo=autohotspot.service
+
+[Service]
+TimeoutStartSec=30s
+ExecStartPre=/bin/sh -c 'sleep 1'
+ExecStart=/var/www/app.js
+RestartSec=30s
+Restart=on-failure
