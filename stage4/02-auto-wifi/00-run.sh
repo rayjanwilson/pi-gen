@@ -10,9 +10,16 @@ install -v -m 644 files/autohotspot/autohotspot.service "${ROOTFS_DIR}/etc/syste
 install -v -m 755 files/autohotspot/autohotspot.sh "${ROOTFS_DIR}/usr/bin/"
 
 install -v -m 644 files/nodeserver/nodeserver.service "${ROOTFS_DIR}/etc/systemd/system/"
-mkdir -p "${ROOTFS_DIR}/var/www"
-install -v -m 755 files/nodeserver/app.js "${ROOTFS_DIR}/var/www/"
+install -v -d "${ROOTFS_DIR}/var/www"
+cp -R files/nodeserver/webapp/* "${ROOTFS_DIR}/var/www/"
 
 on_chroot << EOF
+echo "current folder"
+ls -l
+cd /var/www/
+echo "/var/www/"
+ls -l
+npm install
+npm run build
 systemctl enable autohotspot.service
 EOF
