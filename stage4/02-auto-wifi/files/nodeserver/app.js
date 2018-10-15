@@ -1,13 +1,15 @@
 #!/usr/bin/node
 const http = require('http');
+const fs = require('fs');
 
-const hostname = '127.0.0.1';
+const basehostname = fs.readFileSync('/etc/hostname', 'utf8').trim();
+const hostname = basehostname.concat('', '.local');
 const port = 80;
 
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World\n');
+  res.setHeader('Content-Type', 'text/html');
+  res.end('<!doctype html><html>Hello World</html>');
 });
 
 server.listen(port, hostname, () => {
