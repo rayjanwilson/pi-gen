@@ -34,88 +34,88 @@ ssidsmac=("${ssids[@]}" "${mac[@]}") #combines ssid and MAC for checking
 
 createAdHocNetwork()
 {
-    echo "Creating Hotspot"
-    ip link set dev "$wifidev" down
-    ip a add 10.0.0.5/24 brd + dev "$wifidev"
-    ip link set dev "$wifidev" up
-    dhcpcd -k "$wifidev" >/dev/null 2>&1
-    systemctl start dnsmasq
-    systemctl start hostapd
+  echo "Creating Hotspot"
+  ip link set dev "$wifidev" down
+  ip a add 10.0.0.5/24 brd + dev "$wifidev"
+  ip link set dev "$wifidev" up
+  dhcpcd -k "$wifidev" >/dev/null 2>&1
+  systemctl start dnsmasq
+  systemctl start hostapd
 }
 
 KillHotspot()
 {
-    echo "Shutting Down Hotspot"
-    ip link set dev "$wifidev" down
-    systemctl stop hostapd
-    systemctl stop dnsmasq
-    ip addr flush dev "$wifidev"
-    ip link set dev "$wifidev" up
-    dhcpcd  -n "$wifidev" >/dev/null 2>&1
+  echo "Shutting Down Hotspot"
+  ip link set dev "$wifidev" down
+  systemctl stop hostapd
+  systemctl stop dnsmasq
+  ip addr flush dev "$wifidev"
+  ip link set dev "$wifidev" up
+  dhcpcd  -n "$wifidev" >/dev/null 2>&1
 }
 
 ChkWifiUp()
 {
   echo "Checking WiFi connection ok"
-        sleep 20 #give time for connection to be completed to router
+  sleep 20 #give time for connection to be completed to router
   if ! wpa_cli -i "$wifidev" status | grep 'ip_address' >/dev/null 2>&1
-        then #Failed to connect to wifi (check your wifi settings, password etc)
-         echo 'Wifi failed to connect, falling back to Hotspot.'
-               wpa_cli terminate "$wifidev" >/dev/null 2>&1
-         createAdHocNetwork
+  then #Failed to connect to wifi (check your wifi settings, password etc)
+    echo 'Wifi failed to connect, falling back to Hotspot.'
+    wpa_cli terminate "$wifidev" >/dev/null 2>&1
+    createAdHocNetwork
   fi
 }
 
 
 FindSSID()
 {
-#Check to see what SSID's and MAC addresses are in range
-ssidChk=('NoSSid')
-i=0; j=0
-until [ $i -eq 1 ] #wait for wifi if busy, usb wifi is slower.
-do
-        ssidreply=$((iw dev "$wifidev" scan ap-force | egrep "^BSS|SSID:") 2>&1) >/dev/null 2>&1
-        echo "SSid's in range: " $ssidreply
-        echo "Device Available Check try " $j
-        if (($j >= 10)); then #if busy 10 times goto hotspot
-                 echo "Device busy or unavailable 10 times, going to Hotspot"
-                 ssidreply=""
-                 i=1
-  elif echo "$ssidreply" | grep "No such device (-19)" >/dev/null 2>&1; then
-                echo "No Device Reported, try " $j
-    NoDevice
-        elif echo "$ssidreply" | grep "Network is down (-100)" >/dev/null 2>&1 ; then
-                echo "Network Not available, trying again" $j
-                j=$((j + 1))
-                sleep 2
-  elif echo "$ssidreplay" | grep "Read-only file system (-30)" >/dev/null 2>&1 ; then
-    echo "Temporary Read only file system, trying again"
-    j=$((j + 1))
-    sleep 2
-  elif ! echo "$ssidreply" | grep "resource busy (-16)"  >/dev/null 2>&1 ; then
-               echo "Device Available, checking SSid Results"
-    i=1
-  else #see if device not busy in 2 seconds
-                echo "Device unavailable checking again, try " $j
-    j=$((j + 1))
-    sleep 2
-  fi
-done
+  #Check to see what SSID's and MAC addresses are in range
+  ssidChk=('NoSSid')
+  i=0; j=0
+  until [ $i -eq 1 ] #wait for wifi if busy, usb wifi is slower.
+  do
+    ssidreply=$((iw dev "$wifidev" scan ap-force | egrep "^BSS|SSID:") 2>&1) >/dev/null 2>&1
+    echo "SSid's in range: " $ssidreply
+    echo "Device Available Check try " $j
+    if (($j >= 10)); then #if busy 10 times goto hotspot
+      echo "Device busy or unavailable 10 times, going to Hotspot"
+      ssidreply=""
+      i=1
+    elif echo "$ssidreply" | grep "No such device (-19)" >/dev/null 2>&1; then
+      echo "No Device Reported, try " $j
+      NoDevice
+    elif echo "$ssidreply" | grep "Network is down (-100)" >/dev/null 2>&1 ; then
+      echo "Network Not available, trying again" $j
+      j=$((j + 1))
+      sleep 2
+    elif echo "$ssidreplay" | grep "Read-only file system (-30)" >/dev/null 2>&1 ; then
+      echo "Temporary Read only file system, trying again"
+      j=$((j + 1))
+      sleep 2
+    elif ! echo "$ssidreply" | grep "resource busy (-16)"  >/dev/null 2>&1 ; then
+      echo "Device Available, checking SSid Results"
+      i=1
+    else #see if device not busy in 2 seconds
+      echo "Device unavailable checking again, try " $j
+      j=$((j + 1))
+      sleep 2
+    fi
+  done
 
-for ssid in "${ssidsmac[@]}"
-do
-     if (echo "$ssidreply" | grep "$ssid") >/dev/null 2>&1
-     then
-        #Valid SSid found, passing to script
-              echo "Valid SSID Detected, assesing Wifi status"
-              ssidChk=$ssid
-              return 0
-      else
-        #No Network found, NoSSid issued"
-              echo "No SSid found, assessing WiFi status"
-              ssidChk='NoSSid'
-     fi
-done
+  for ssid in "${ssidsmac[@]}"
+  do
+    if (echo "$ssidreply" | grep "$ssid") >/dev/null 2>&1
+    then
+      #Valid SSid found, passing to script
+      echo "Valid SSID Detected, assesing Wifi status"
+      ssidChk=$ssid
+      return 0
+    else
+      #No Network found, NoSSid issued"
+      echo "No SSid found, assessing WiFi status"
+      ssidChk='NoSSid'
+    fi
+  done
 }
 
 NoDevice()
@@ -132,33 +132,33 @@ FindSSID
 #Create Hotspot or connect to valid wifi networks
 if [ "$ssidChk" != "NoSSid" ]
 then
-       if systemctl status hostapd | grep "(running)" >/dev/null 2>&1
-       then #hotspot running and ssid in range
-              KillHotspot
-              echo "Hotspot Deactivated, Bringing Wifi Up"
-              wpa_supplicant -B -i "$wifidev" -c /etc/wpa_supplicant/wpa_supplicant.conf >/dev/null 2>&1
-              ChkWifiUp
-       elif { wpa_cli -i "$wifidev" status | grep 'ip_address'; } >/dev/null 2>&1
-       then #Already connected
-              echo "Wifi already connected to a network"
-       else #ssid exists and no hotspot running connect to wifi network
-              echo "Connecting to the WiFi Network"
-              wpa_supplicant -B -i "$wifidev" -c /etc/wpa_supplicant/wpa_supplicant.conf >/dev/null 2>&1
-              ChkWifiUp
-       fi
+  if systemctl status hostapd | grep "(running)" >/dev/null 2>&1
+  then #hotspot running and ssid in range
+    KillHotspot
+    echo "Hotspot Deactivated, Bringing Wifi Up"
+    wpa_supplicant -B -i "$wifidev" -c /etc/wpa_supplicant/wpa_supplicant.conf >/dev/null 2>&1
+    ChkWifiUp
+elif { wpa_cli -i "$wifidev" status | grep 'ip_address'; } >/dev/null 2>&1
+  then #Already connected
+    echo "Wifi already connected to a network"
+  else #ssid exists and no hotspot running connect to wifi network
+    echo "Connecting to the WiFi Network"
+    wpa_supplicant -B -i "$wifidev" -c /etc/wpa_supplicant/wpa_supplicant.conf >/dev/null 2>&1
+    ChkWifiUp
+  fi
 else #ssid or MAC address not in range
-       if systemctl status hostapd | grep "(running)" >/dev/null 2>&1
-       then
-              echo "Hostspot already active"
-       elif { wpa_cli status | grep "$wifidev"; } >/dev/null 2>&1
-       then
-              echo "Cleaning wifi files and Activating Hotspot"
-              wpa_cli terminate >/dev/null 2>&1
-              ip addr flush "$wifidev"
-              ip link set dev "$wifidev" down
-              rm -r /var/run/wpa_supplicant >/dev/null 2>&1
-              createAdHocNetwork
-       else #"No SSID, activating Hotspot"
-              createAdHocNetwork
-       fi
+  if systemctl status hostapd | grep "(running)" >/dev/null 2>&1
+  then
+    echo "Hostspot already active"
+elif { wpa_cli status | grep "$wifidev"; } >/dev/null 2>&1
+  then
+    echo "Cleaning wifi files and Activating Hotspot"
+    wpa_cli terminate >/dev/null 2>&1
+    ip addr flush "$wifidev"
+    ip link set dev "$wifidev" down
+    rm -r /var/run/wpa_supplicant >/dev/null 2>&1
+    createAdHocNetwork
+  else #"No SSID, activating Hotspot"
+    createAdHocNetwork
+  fi
 fi
