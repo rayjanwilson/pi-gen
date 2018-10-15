@@ -1,3 +1,4 @@
+# install options, sourced from https://elinux.org/RPiconfig
 dtparam=i2c_arm=on
 dtparam=spi=on
 start_x=1
