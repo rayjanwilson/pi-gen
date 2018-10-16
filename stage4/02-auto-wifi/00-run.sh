@@ -16,8 +16,8 @@ cp -R files/nodeserver/webapp/* "${ROOTFS_DIR}/var/www/"
 on_chroot << EOF
 echo "current folder"
 ls -l
-cd /var/www/
-echo "/var/www/"
+cd /var/www
+echo "/var/www"
 ls -l
 npm install
 npm run build
