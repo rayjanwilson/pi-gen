@@ -1,3 +1,4 @@
+#!/usr/bin/node
 const express = require('express');
 const os = require('os');
 
