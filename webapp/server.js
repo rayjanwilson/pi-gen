@@ -39,8 +39,7 @@ app.post('/saveWifi', (req, res) => {
 app.get('/api/listWifi', (req, res) => {
   iwlist((error, result) => {
     console.log(result)
-    // log_error_send_success_with(result[0], error, response);
+    log_error_send_success_with(result[0], error, res);
   });
-  // res.send({username: os.userInfo().username})
 });
 app.listen(3000, () => console.log('Listening on port 3000!'));

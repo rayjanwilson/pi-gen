@@ -9,8 +9,12 @@ module.exports = function(cmd_options, callback) {
 
   let fields_to_extract = {
     "ssid": /ESSID:\"(.*)\"/,
-    "quality": /Quality=(\d+)\/100/,
-    "signal_strength": /.*Signal level=(\d+)\/100/,
+    "quality": /Quality=(\d+\/\d+)/,
+    "signal_strength": /.*Signal level=(.*)/,
+    "group_cipher": /Group Cipher \: (\w+)/,
+    "pairwise_cipher": /Pairwise Ciphers.*: (.*)/,
+    "802.11": /IE: IEEE (.*)/,
+    "auth_suite": /Authentication Suites.*: (.*)/,
     "encrypted": /Encryption key:(on)/,
     "open": /Encryption key:(off)/
   };
