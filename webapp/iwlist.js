@@ -73,7 +73,7 @@ const parseWifis = (stdout) => {
   }
 }
 
-async function iwlistAsync(){
+async function iwlist(){
   const { stdout, stderr } = await exec("iwlist scan");
 
   // Parse the result, build return object
@@ -82,7 +82,9 @@ async function iwlistAsync(){
   // Add the last item we tracked
   append_previous_interface();
 
-  return output[0]['scan_results'];
+  let wifis = output[0]['scan_results'].filter(el => !el.ssid.startsWith('\\x'));
+
+  return wifis;
 }
 
-module.exports = iwlistAsync;
+module.exports = iwlist;

@@ -6,7 +6,7 @@ const path = require('path');
 const fs = require('fs');
 const bodyParser = require('body-parser');
 const app = express();
-const iwlistAsync = require('./iwlistAsync');
+const iwlist = require('./iwlist');
 
 const asyncMiddleware = fn =>
   (req, res, next) => {
@@ -22,7 +22,7 @@ app.get('/', asyncMiddleware( async (req, res, next) => {
 }));
 
 app.get('/listWifi', asyncMiddleware( async (req, res, next) => {
-  const wifis = await iwlistAsync();
+  const wifis = await iwlist();
   console.log(wifis);
   res.json(wifis);
 }));
@@ -37,4 +37,4 @@ app.get('/listWifi', asyncMiddleware( async (req, res, next) => {
 //   res.send(req.params);
 // });
 
-app.listen(3000, () => console.log('Listening on port 3000!'));
+app.listen(80, () => console.log('Listening on port 80!'));
